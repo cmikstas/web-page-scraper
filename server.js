@@ -36,60 +36,90 @@ app.set("view engine", "handlebars");
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/web-scraper-homework", { useNewUrlParser: true });
 
-// A GET route for scraping the echoJS website
+app.get("/", function(req, res)
+{
+  res.redirect("/home");
+});
+
+app.get("/home", function(req, res)
+{
+  //let hbsObject = { user: req.user.username };
+  res.render("home", /**hbsObject**/);
+});
+
+// app.get("/scraped", function(req, res)
+// {
+  
+//   res.render("scraped", hbsObject);
+// });
+
+app.get("/saved", function(req, res)
+{
+        //let hbsObject = { user: req.user.username };
+        res.render("saved", /**hbsObject**/);
+});
+
+
+// A GET route for scraping theringer dot com website
 app.get("/scrape", function(req, res) 
 {
-    // First, we grab the body of the html with axios
-    axios.get("https://www.theringer.com/").then(function(response)
+  // First, we grab the body of the html with axios
+  axios.get("https://www.theringer.com/").then(function(response)
+  {
+    // Then, we load that into cheerio and save it to $ for a shorthand selector
+    var $ = cheerio.load(response.data);
+
+    //console.log(response.data);
+
+    let results = [];
+  
+    // Now, we grab every h2 within an article tag, and do the following:
+    $("div.c-entry-box--compact").each(function(i, element)
     {
-      // Then, we load that into cheerio and save it to $ for a shorthand selector
-      var $ = cheerio.load(response.data);
+      let articleTopic = $(element).find("span").text();
+      let articleTopicArr = articleTopic.split("\n");
+      articleTopic = articleTopicArr[0];
 
-      //console.log(response.data);
-
-      let results = [];
-  
-       // Now, we grab every h2 within an article tag, and do the following:
-       $("div.c-entry-box--compact").each(function(i, element)
-       {
-            let articleTopic = $(element).find("span").text();
-            let articleTopicArr = articleTopic.split("\n");
-            articleTopic = articleTopicArr[0];
-
-            let title = $(element).find("a").text();
-            let titleArr = title.split("\n");
-            title = titleArr[titleArr.length-1].trim();
+      let title = $(element).find("a").text();
+      let titleArr = title.split("\n");
+      title = titleArr[titleArr.length-1].trim();
     
-            let link = $(element).find("a").attr("href");
+      let link = $(element).find("a").attr("href");
     
-            // Save these results in an object that we'll push into the results array we defined earlier
-            results.push(
-            {
-                topic: articleTopic,
-                title: title,
-                link: link
-            });
-  
-            // Create a new Article using the `result` object built from scraping
-            db.Article.create(results)
-                .then(function(dbArticle) 
-                {
-                    // View the added result in the console
-                    console.log(dbArticle);
-                })
-                .catch(function(err) 
-                {
-                    // If an error occurred, log it
-                    console.log(err);
-                });
-       });
+      // Save these results in an object that we'll push into the results array we defined earlier
+      results.push(
+      {
+        topic: articleTopic,
+        title: title,
+        link: link
+      });
 
-       //console.log(results);
+      for (let i = 0; i < results.length; i++)
+      {
+        
+      }
   
-      // Send a message to the client
-      res.send("Scrape Complete");
+      // // Create a new Article using the `result` object built from scraping
+      // db.Article.create(results)
+      //     .then(function(dbArticle) 
+      //     {
+      //         // View the added result in the console
+      //         console.log(dbArticle);
+      //     })
+      //     .catch(function(err) 
+      //     {
+      //         // If an error occurred, log it
+      //         console.log(err);
+      //     });
     });
+
+    //console.log(results);
+  
+    // Send a message to the client
+    let hbsObject = { results: results };
+    res.render("scraped", hbsObject);
   });
+});
 
 
 // Start the server
