@@ -76,9 +76,9 @@ app.get("/scrape", function(req, res)
     // Now, we grab every h2 within an article tag, and do the following:
     $("div.c-entry-box--compact").each(function(i, element)
     {
-      let articleTopic = $(element).find("span").text();
-      let articleTopicArr = articleTopic.split("\n");
-      articleTopic = articleTopicArr[0];
+      let topic = $(element).find("span").text();
+      let articleTopicArr = topic.split("\n");
+      topic = articleTopicArr[0];
 
       let title = $(element).find("a").text();
       let titleArr = title.split("\n");
@@ -89,28 +89,11 @@ app.get("/scrape", function(req, res)
       // Save these results in an object that we'll push into the results array we defined earlier
       results.push(
       {
-        topic: articleTopic,
+        topic: topic,
         title: title,
         link: link
       });
 
-      for (let i = 0; i < results.length; i++)
-      {
-        
-      }
-  
-      // // Create a new Article using the `result` object built from scraping
-      // db.Article.create(results)
-      //     .then(function(dbArticle) 
-      //     {
-      //         // View the added result in the console
-      //         console.log(dbArticle);
-      //     })
-      //     .catch(function(err) 
-      //     {
-      //         // If an error occurred, log it
-      //         console.log(err);
-      //     });
     });
 
     //console.log(results);
@@ -118,6 +101,19 @@ app.get("/scrape", function(req, res)
     // Send a message to the client
     let hbsObject = { results: results };
     res.render("scraped", hbsObject);
+  });
+});
+
+app.post("/api/savearticle", function(req, res)
+{
+  db.Article.create(req.body)
+  .then(function(dbArticle) 
+  {
+    res.json(dbArticle);
+  })
+  .catch(function(err) 
+  {
+    res.json(err);
   });
 });
 

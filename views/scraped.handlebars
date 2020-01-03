@@ -22,18 +22,22 @@
 
 <div id="page-body">
     <div class="container mt-3" style="justify-content: space-between;">
+        <div class="mb-3">
+            <button type="button" id="home-page" class="btn btn-danger mt-2">Home Page</button>
+            <button type="button" id="saved-articles" class="btn btn-primary mt-2">Saved Articles</button>
+        </div>
         <div>
             <h2>Take a look through everything that was scraped</h2>
         </div>
         <div>
             <ul>
                 {{#each results}}
-                    <li>{{topic}}</li>
-                    <li>{{title}}</li>
-                    <li><a href={{link}}>{{link}}</a></li>
-                    <button type="button" id="save-article" class="btn btn-primary mt-2">Save Article</button>
-                    <br>
-                    <br>
+                <li>Article Topic: {{topic}}</li>
+                <li>Article Title: {{title}}</li>
+                <li>Article Link: <a href={{link}}>{{link}}</a></li>
+                <button type="button" class="btn btn-primary mt-2 save-article" topic-id="{{topic}}" article-id="{{title}}" link-id="{{link}}">Save Article</button>
+                <br>
+                <br>
                 {{/each}}
             </ul>
         </div>
@@ -61,4 +65,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <!--Home Javascript-->
-<script type="text/javascript" src="js/home.js"></script>
+<script type="text/javascript" src="js/scraped.js"></script>
