@@ -59,6 +59,11 @@ app.get("/saved", function(req, res)
         res.render("saved", /**hbsObject**/);
 });
 
+app.get("/notes", function(req, res)
+{
+        //let hbsObject = { user: req.user.username };
+        res.render("notes", /**hbsObject**/);
+});
 
 // A GET route for scraping theringer dot com website
 app.get("/scrape", function(req, res) 
@@ -107,14 +112,41 @@ app.get("/scrape", function(req, res)
 app.post("/api/savearticle", function(req, res)
 {
   db.Article.create(req.body)
-  .then(function(dbArticle) 
-  {
-    res.json(dbArticle);
-  })
-  .catch(function(err) 
-  {
-    res.json(err);
-  });
+    .then(function(dbArticle) 
+    {
+      res.json(dbArticle);
+    })
+    .catch(function(err) 
+    {
+      res.json(err);
+    });
+});
+
+app.get("/savedArticles", function(req, res) 
+{
+  // Grab every document in the Articles collection
+  db.Article.find({})
+    .then(function(dbArticle) 
+    {
+      res.json(dbArticle);
+    })
+    .catch(function(err) 
+    {
+      res.json(err);
+    });
+});
+
+app.delete("/article/:id", function(req, res)
+{
+    db.Article.find({ _id: req.params.id }).remove()
+    .then(function(dbArticle)
+    {
+        res.json(dbArticle);
+    })
+    .catch(function(err)
+    {
+        res.json(err);
+    });
 });
 
 

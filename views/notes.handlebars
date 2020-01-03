@@ -1,6 +1,6 @@
 <!--Personal Styling-->
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
-<link rel="stylesheet" href="/css/scraped.css" type="text/css" />
+<link rel="stylesheet" href="/css/notes.css" type="text/css" />
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
@@ -27,20 +27,14 @@
             <button type="button" id="saved-articles" class="btn btn-primary mt-2">Saved Articles</button>
         </div>
         <div>
-            <h2>Take a look through everything that was scraped</h2>
+            <h2>Saved Articles</h2>
         </div>
         <div>
-            <ul>
-                {{#each results}}
-                <li>Article Topic: {{topic}}</li>
-                <li>Article Title: {{title}}</li>
-                <li>Article Link: <a href={{link}}>{{link}}</a></li>
-                <div>
-                    <button type="button" class="btn btn-primary mt-2 mb-2 save-article" topic-id="{{topic}}" article-id="{{title}}" link-id="{{link}}">Save Article</button>
-                </div>
-                {{/each}}
+            <ul id="article-notes">
+
             </ul>
         </div>
+
     </div>
 </div>
 
@@ -64,5 +58,5 @@
 <!--jQuery-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<!--Home Javascript-->
-<script type="text/javascript" src="js/scraped.js"></script>
+<!--Saved Javascript-->
+<script type="text/javascript" src="js/notes.js"></script>

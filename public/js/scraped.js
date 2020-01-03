@@ -15,6 +15,8 @@ $(document).ready(function ()
         let topic = $(this).attr("topic-id");
         let title = $(this).attr("article-id");
         let link = $(this).attr("link-id");
+        let button = $(this); // It took me much aggravation to figure this part out...
+        let buttonSpot = $(this).parent();
 
         $.ajax("/api/savearticle",
         {
@@ -28,7 +30,17 @@ $(document).ready(function ()
         })
         .then(function(data)
         {
-                console.log(data);
+            console.log(data);
+
+            button.remove(); // It took me much aggravation to figure this part out...
+
+            let alreadySelected = $("<p>");
+            alreadySelected.addClass("mt-2 mb-2 text-danger");
+            alreadySelectedText = "Already Saved";
+
+            alreadySelected.append(alreadySelectedText);
+            buttonSpot.append(alreadySelected);
+
         })
     });
 });

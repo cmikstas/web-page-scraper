@@ -4,3 +4,9 @@ footer
     background-color: rgba(30, 47, 126, 0.3);
     color: #ffffff;
 }
+
+#page-body
+{
+    flex: 1 0 auto;
+
+}
