@@ -32,11 +32,18 @@ $(document).ready(function ()
                 let li3 = $("<li>");
                 li3.addClass("mb-1");
 
-                let deleteBtn = $("<button>")
+                let deleteBtn = $("<button>");
                 let deleteBtnTxt = "Remove Article";
                 deleteBtn.attr("type", "button");
                 deleteBtn.addClass("btn btn-danger mb-3");
                 deleteBtn.append(deleteBtnTxt);
+
+                let notesBtn = $("<button>");
+                let notesBtnTxt = "Article Notes";
+                notesBtn.attr("type", "button");
+                notesBtn.addClass("btn btn-primary mb-3 mr-2");
+                notesBtn.append(notesBtnTxt);
+
 
                 li1.append("<b>" + "Topic: " + "</b>" + topic);
                 li2.append("<b>" + "Title: " + "</b>" + title);
@@ -45,9 +52,15 @@ $(document).ready(function ()
                 articleDiv.append(li1);
                 articleDiv.append(li2);
                 articleDiv.append(li3);
+                articleDiv.append(notesBtn);
                 articleDiv.append(deleteBtn);
 
                 $("#saved-articles-list").append(articleDiv);
+
+                notesBtn.on("click", function (event)
+                {
+                    window.location.assign("/article/" + id);
+                });
 
                 deleteBtn.on("click", function (event)
                 {
@@ -62,6 +75,7 @@ $(document).ready(function ()
                     });
 
                 });
+
             }
         });
     }

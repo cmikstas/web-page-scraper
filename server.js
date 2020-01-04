@@ -55,14 +55,26 @@ app.get("/home", function(req, res)
 
 app.get("/saved", function(req, res)
 {
-        //let hbsObject = { user: req.user.username };
-        res.render("saved", /**hbsObject**/);
+  //let hbsObject = { user: req.user.username };
+  res.render("saved", /**hbsObject**/);
 });
 
-app.get("/notes", function(req, res)
+app.get("/article/:id", function(req, res)
 {
-        //let hbsObject = { user: req.user.username };
-        res.render("notes", /**hbsObject**/);
+  db.Article.findOne({ _id: req.params.id })
+  .populate("notes")
+  .then(function(dbArticle)
+  {
+    //res.json(dbArticle);
+
+    let hbsObject = { results: dbArticle };
+    res.render("notes", hbsObject);
+  })
+  .catch(function(err)
+  {
+    res.json(err);
+  });
+
 });
 
 // A GET route for scraping theringer dot com website
@@ -148,6 +160,43 @@ app.delete("/article/:id", function(req, res)
         res.json(err);
     });
 });
+
+// I needed help figuring this part out...
+app.post("/note", function(req, res)
+{
+  console.log(req.body);
+  db.Note.create({ body: req.body.body })
+  .then(function(dbNote)
+  {
+    return db.Article.findOneAndUpdate({ _id: req.body.articleId }, { $push: { notes: dbNote._id } }, { new: true });
+  })
+  .then(function(dbArticle)
+  {
+    res.json(dbArticle);
+  })
+  .catch(function(err)
+  {
+    res.json(err);
+  });
+});
+
+app.delete("/note/:articleId/:noteId", function(req, res)
+{
+    db.Article.findOneAndUpdate({ _id: req.params.articleId }, { $pull: { notes: req.params.noteId } }, {new: true})
+    .then(function(dbArticle)
+    {
+      return db.Note.find({ _id: req.params.noteId }).deleteOne();
+    })
+    .then(function(dbNote)
+    {
+      res.json(dbNote);
+    })
+    .catch(function(err)
+    {
+        res.json(err);
+    });
+});
+
 
 
 // Start the server

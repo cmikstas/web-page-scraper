@@ -1,6 +1,6 @@
 <!--Personal Styling-->
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
-<link rel="stylesheet" href="/css/notes.css" type="text/css" />
+<!--<link rel="stylesheet" href="/css/notes.css" type="text/css" />-->
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
@@ -26,12 +26,28 @@
             <button type="button" id="home-page" class="btn btn-success mt-2">Home Page</button>
             <button type="button" id="saved-articles" class="btn btn-primary mt-2">Saved Articles</button>
         </div>
-        <div>
-            <h2>Saved Articles</h2>
+        <form>
+            <div class="form-group mt-2">
+                <label class="survey-info" for="add-note">
+                    <h4>Add New Note</h4>
+                </label>
+                <input type="text" class="form-control mt-2" id="note-text" placeholder="Enter Note">
+                <button type="submit" class="btn btn-primary mt-2 add-note" article-id="{{results._id}}">Add
+                    Note</button>
+            </div>
+        </form>
+        <div class="mt-4">
+            <h5>Article Notes for <a href={{results.link}}>{{results.title}}</a></h5>
         </div>
         <div>
             <ul id="article-notes">
-
+                {{#each results.notes}}
+                <div>
+                    <li><b>Note: </b>{{body}}</li>
+                    <button type="button" class="btn btn-danger mt-2 mb-2 save-article delete-note"
+                        note-id="{{_id}}">Delete Note</button>
+                </div>
+                {{/each}}
             </ul>
         </div>
 
@@ -59,4 +75,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <!--Saved Javascript-->
-<script type="text/javascript" src="js/notes.js"></script>
+<script type="text/javascript" src="../js/note.js"></script>
