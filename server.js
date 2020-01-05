@@ -28,13 +28,16 @@ app.use(express.static("public"));
 
 //Set Handlebars.
 let exphbs = require("express-handlebars");
-app.engine("handlebars", exphbs({
+app.engine("handlebars", exphbs(
+{
     defaultLayout: "main"
 }));
 app.set("view engine", "handlebars");
 
+let MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/web-scraper-homework"/*, { useNewUrlParser: true }*/;
+
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/web-scraper-homework", { useNewUrlParser: true });
+mongoose.connect(MONGODB_URI);
 
 app.get("/", function(req, res)
 {

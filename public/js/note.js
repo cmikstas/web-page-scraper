@@ -12,8 +12,6 @@ $(document).ready(function ()
 
     $(".add-note").on("click", function(event)
     {
-        //event.preventDefault();
-
         let noteText = $("#note-text").val().trim();
         console.log(noteText);
 
