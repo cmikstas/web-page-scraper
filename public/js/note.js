@@ -12,22 +12,30 @@ $(document).ready(function ()
 
     $(".add-note").on("click", function(event)
     {
+        event.preventDefault();
+
         let noteText = $("#note-text").val().trim();
         console.log(noteText);
 
-        let articleId = $(this).attr("article-id");
-        console.log(articleId);
-
-        $.ajax("/note",
+        if (noteText !== "")
         {
-            type: "POST",
-            data:
+            let articleId = $(this).attr("article-id");
+            console.log(articleId);
+    
+            $.ajax("/note",
             {
-                articleId: articleId,
-                body: noteText
-            }
-        })
-
+                type: "POST",
+                data:
+                {
+                    articleId: articleId,
+                    body: noteText
+                }
+            })
+            .then(function()
+            {
+                location.reload();
+            });
+        }
     });
 
     $(".delete-note").on("click", function(event)
