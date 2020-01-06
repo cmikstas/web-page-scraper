@@ -1,12 +1,21 @@
 $(document).ready(function ()
 {
-    $("#start-scraping").on("click", function(event)
+    const scrapeArticles = () =>
     {
-        window.location.assign("/scrape");
-    });
+        $("#start-scraping").on("click", function(event)
+        {
+            window.location.assign("/scrape");
+        });
+    }
 
-    $("#saved-articles").on("click", function(event)
+    const goToSavedArticles = () =>
     {
-        window.location.assign("/saved");
-    });
+        $("#saved-articles").on("click", function(event)
+        {
+            window.location.assign("/saved");
+        });
+    }
+
+    scrapeArticles();
+    goToSavedArticles();
 });

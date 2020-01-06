@@ -1,11 +1,14 @@
 $(document).ready(function ()
 {
-    $("#home-page2").on("click", function(event)
+    const goToHome = () =>
     {
-        window.location.assign("/home");
-    });
+        $("#home-page2").on("click", function(event)
+        {
+            window.location.assign("/home");
+        });
+    }
 
-    let getArticles = function()
+    const getArticles = () =>
     {
         $.get("/savedArticles", function(data)
         {
@@ -80,5 +83,6 @@ $(document).ready(function ()
         });
     }
 
+    goToHome();
     getArticles();
 });
